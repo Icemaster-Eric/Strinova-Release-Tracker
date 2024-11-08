@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strinova Release Estimation</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@^2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@^1"></script>
+</head>
+<body>
+    <h1>Strinova Release Estimation</h1>
+    <p>Since most games will release after hitting their preregistration milestones, I built this website in order to estimate the rough release date based on preregistration data. (Yes this site looks like shit, I spent a total of 2 hours on it don't judge)</p>
+    <p><b>NOTE: The current data was manually gathered. The estimate will become more and more accurate as more data is gathered automatically by this website.</b></p>
+    <canvas id="stats" style="width: 100vw; height: 80vh;"></canvas>
+    <script>
+        const preregistrationData = [
+            { x: "2024-11-05T12:00:00", y: 4159408 },
+            { x: "2024-11-06T08:30:00", y: 4196753 },
+            { x: "2024-11-06T15:15:00", y: 4215075 },
+            { x: "2024-11-07T10:00:00", y: 4241848 },
+            { x: "2024-11-07T12:00:00", y: 4245477 },
+            { x: "2024-11-07T14:00:00", y: 4249335 },
+            { x: "2024-11-07T19:00:00", y: 4258512 }
+        ]
+
+        function convertToMilliseconds(data) {
+            return data.map(point => ({
+                x: new Date(point.x).getTime(),
+                y: point.y
+            }));
+        }
+        function calculateTrendline(data) {
+            const n = data.length;
+            let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+
+            data.forEach(point => {
+                sumX += point.x;
+                sumY += point.y;
+                sumXY += point.x * point.y;
+                sumX2 += point.x * point.x;
+            });
+
+            const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+
+            return { slope, intercept };
+        }
+
+        const numericalData = convertToMilliseconds(preregistrationData);
+        const trendline = calculateTrendline(numericalData);
+        const trendlineEndDate = new Date("2024-12-31T12:00:00").getTime();
+
+        function getTrendlinePoints(data, trendline, endDate) {
+            const xValues = data.map(point => point.x);
+            const minX = Math.min(...xValues);
+            const maxX = Math.max(...xValues);
+            
+            const startY = trendline.slope * minX + trendline.intercept;
+            const endY = trendline.slope * endDate + trendline.intercept;
+            
+            return [
+                { x: new Date(minX).toISOString(), y: startY },
+                { x: new Date(endDate).toISOString(), y: endY }
+            ];
+        }
+        const trendlinePoints = getTrendlinePoints(numericalData, trendline, trendlineEndDate);
+
+        const ctx = document.getElementById("stats").getContext("2d");
+        const statChart = new Chart(ctx, {
+            type: "scatter",
+            data: {
+                datasets: [
+                    {
+                        label: "Preregistrations",
+                        data: preregistrationData,
+                        backgroundColor: "rgba(75, 192, 192, 1)",
+                        borderColor: "rgba(75, 192, 192, 0.5)",
+                        pointRadius: 5,
+                        pointHoverRadius: 10,
+                        tension: 0.4
+                    },
+                    {
+                        label: "Prediction",
+                        data: trendlinePoints,
+                        type: "line",
+                        fill: false,
+                        borderColor: "rgba(75, 192, 192, 0.5)",
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        borderDash: [5, 5]
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: "time",
+                        position: "bottom",
+                        title: {
+                            display: true,
+                            text: "Date"
+                        },
+                        max: "2024-12-31T12:00:00"
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: "Preregistrations"
+                        },
+                        max: 7500000
+                    }
+                },
+                plugins: {
+                    customCanvasBackgroundColor: {
+                        color: "rgba(86, 255, 86, 0.2)", // Highlight color
+                        yRange: [6000000, 7000000], // Y-axis range to highlight
+                        labelText: "Release Likely", // Text label for the highlighted area
+                        labelColor: "black", // Color for the text label
+                        labelFont: "bold 12px Arial" // Font style for the text label
+                    }
+                },
+                responsive: true,
+            },
+            plugins: [{
+                id: "customCanvasBackgroundColor",
+                beforeDraw: (chart, args, options) => {
+                    const { ctx, chartArea: { left, right, top, bottom }, scales: { y } } = chart;
+                    const yStart = y.getPixelForValue(options.yRange[0]);
+                    const yEnd = y.getPixelForValue(options.yRange[1]);
+        
+                    // Draw the highlighted background
+                    ctx.save();
+                    ctx.fillStyle = options.color;
+                    ctx.fillRect(left, yEnd, right - left, yStart - yEnd);
+        
+                    // Add the text label
+                    ctx.fillStyle = options.labelColor;
+                    ctx.font = options.labelFont;
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.fillText(
+                        options.labelText,
+                        left + (right - left) / 2, // X position: center of the highlighted area
+                        yEnd + (yStart - yEnd) / 2 // Y position: center of the highlighted area
+                    );
+                    ctx.restore();
+                }
+            }]
+        });
+    </script>
+</body>
+</html>
