@@ -1,209 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Strinova Release Estimation</title>
     <meta content="Strinova Release Date Estimation" property="og:title">
-    <meta content="Strinova should release Dec 17 - Dec 28 based on current estimates." property="og:description">
+    <meta content="Strinova should release Dec 18 - Dec 29 based on current estimates." property="og:description">
     <meta content="https://strinova-release-tracker.hutao.rip" property="og:url">
-    <meta content="https://img.tapimg.net/market/images/1c06b887ae38266c1801597b5f9cb41c.jpg/appicon_m?t=1" property="og:image">
+    <meta content="https://img.tapimg.net/market/images/1c06b887ae38266c1801597b5f9cb41c.jpg/appicon_m?t=1"
+        property="og:image">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@^2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@^1"></script>
 </head>
+
 <body>
-    <h1>Strinova Release Estimation</h1>
-    <p>Since most games will release after hitting their preregistration milestones, I built this website in order to estimate the rough release date based on preregistration data.</p>
-    <p>Strinova should release Dec 17 - Dec 28 based on current estimates.</p>
-    <canvas id="stats" style="width: 100vw; height: 80vh;"></canvas>
-    <script>
-        const preregistrationData = [
-            { x: "2024-11-05T12:00:00", y: 4159408 },
-            { x: "2024-11-06T08:30:00", y: 4196753 },
-            { x: "2024-11-06T15:15:00", y: 4215075 },
-            { x: "2024-11-07T10:00:00", y: 4241848 },
-            { x: "2024-11-07T12:00:00", y: 4245477 },
-            { x: "2024-11-07T14:00:00", y: 4249335 },
-            { x: "2024-11-07T19:00:00", y: 4258512 },
-            { x: "2024-11-07T20:42:02", y: 4261876 },
-            { x: "2024-11-07T21:06:15", y: 4263717 },
-            { x: "2024-11-07T22:06:38", y: 4265465 },
-            { x: "2024-11-07T23:07:00", y: 4267351 },
-            { x: "2024-11-08T08:08:45", y: 4284167 },
-            { x: "2024-11-08T09:09:07", y: 4285882 },
-            { x: "2024-11-08T10:09:29", y: 4287868 },
-            { x: "2024-11-08T11:09:52", y: 4289860 },
-            { x: "2024-11-08T12:10:15", y: 4291822 },
-            { x: "2024-11-08T13:10:36", y: 4293880 },
-            { x: "2024-11-08T14:00:54", y: 4295575 },
-            { x: "2024-11-08T15:01:16", y: 4297537 },
-            { x: "2024-11-08T16:10:16", y: 4299561 },
-            { x: "2024-11-08T17:10:38", y: 4301424 },
-            { x: "2024-11-08T18:11:01", y: 4303421 },
-            { x: "2024-11-08T19:01:20", y: 4305225 },
-            { x: "2024-11-08T20:01:42", y: 4307075 },
-            { x: "2024-11-08T21:02:05", y: 4308928 },
-            { x: "2024-11-08T22:02:27", y: 4310607 },
-            { x: "2024-11-08T23:02:50", y: 4312351 },
-            { x: "2024-11-09T00:03:13", y: 4314392 },
-            { x: "2024-11-09T01:03:36", y: 4316159 },
-            { x: "2024-11-09T02:04:00", y: 4318067 },
-            { x: "2024-11-09T03:04:22", y: 4321593 },
-            { x: "2024-11-09T04:04:45", y: 4323561 },
-            { x: "2024-11-09T05:05:07", y: 4327155 },
-            { x: "2024-11-09T07:05:52", y: 4328863 },
-            { x: "2024-11-09T08:06:15", y: 4330874 },
-            { x: "2024-11-09T09:06:37", y: 4332548 },
-            { x: "2024-11-09T11:04:08", y: 4334463 },
-            { x: "2024-11-09T12:04:29", y: 4336305 },
-            { x: "2024-11-09T13:04:50", y: 4338218 },
-            { x: "2024-11-09T14:05:11", y: 4340283 },
-            { x: "2024-11-09T15:05:33", y: 4342043 },
-            { x: "2024-11-09T16:05:55", y: 4344001 },
-            { x: "2024-11-09T17:11:17", y: 4346080 },
-            { x: "2024-11-09T18:01:36", y: 4347920 },
-            { x: "2024-11-09T19:01:58", y: 4349823 },
-            { x: "2024-11-09T20:02:20", y: 4351821 },
-            { x: "2024-11-09T21:02:43", y: 4353610 },
-            { x: "2024-11-09T22:03:05", y: 4355354 },
-            { x: "2024-11-09T23:03:26", y: 4357091 },
-            { x: "2024-11-10T00:03:48", y: 4359067 },
-            { x: "2024-11-10T01:04:11", y: 4360753 },
-            { x: "2024-11-10T02:04:34", y: 4362517 },
-            { x: "2024-11-10T03:04:57", y: 4364194 },
-            { x: "2024-11-10T04:05:19", y: 4365908 },
-            { x: "2024-11-10T05:05:42", y: 4367660 },
-            { x: "2024-11-10T06:06:04", y: 4369442 },
-            { x: "2024-11-10T07:06:26", y: 4371504 },
-            { x: "2024-11-10T08:06:49", y: 4373275 },
-            { x: "2024-11-10T09:07:12", y: 4375256 },
-        ]
+    <main class="container">
+        <h1>Strinova Release Estimation</h1>
+        <p>Since most games will release after hitting their preregistration milestones, I built this website in order
+            to estimate the rough release date based on preregistration data.</p>
+        <small>Strinova should release Dec 18 - Dec 29 based on current estimates.</small>
+        <canvas id="stats" style="width: 100vw; height: 90vh;"></canvas>
+        <script>
+            const preregistrationData = [
+                { x: "2024-11-05T12:00:00", y: 4159408 },
+                { x: "2024-11-06T08:30:00", y: 4196753 },
+                { x: "2024-11-06T15:15:00", y: 4215075 },
+                { x: "2024-11-07T10:00:00", y: 4241848 },
+                { x: "2024-11-07T12:00:00", y: 4245477 },
+                { x: "2024-11-07T14:00:00", y: 4249335 },
+                { x: "2024-11-07T19:00:00", y: 4258512 },
+                { x: "2024-11-07T20:42:02", y: 4261876 },
+                { x: "2024-11-07T21:06:15", y: 4263717 },
+                { x: "2024-11-07T22:06:38", y: 4265465 },
+                { x: "2024-11-07T23:07:00", y: 4267351 },
+                { x: "2024-11-08T08:08:45", y: 4284167 },
+                { x: "2024-11-08T09:09:07", y: 4285882 },
+                { x: "2024-11-08T10:09:29", y: 4287868 },
+                { x: "2024-11-08T11:09:52", y: 4289860 },
+                { x: "2024-11-08T12:10:15", y: 4291822 },
+                { x: "2024-11-08T13:10:36", y: 4293880 },
+                { x: "2024-11-08T14:00:54", y: 4295575 },
+                { x: "2024-11-08T15:01:16", y: 4297537 },
+                { x: "2024-11-08T16:10:16", y: 4299561 },
+                { x: "2024-11-08T17:10:38", y: 4301424 },
+                { x: "2024-11-08T18:11:01", y: 4303421 },
+                { x: "2024-11-08T19:01:20", y: 4305225 },
+                { x: "2024-11-08T20:01:42", y: 4307075 },
+                { x: "2024-11-08T21:02:05", y: 4308928 },
+                { x: "2024-11-08T22:02:27", y: 4310607 },
+                { x: "2024-11-08T23:02:50", y: 4312351 },
+                { x: "2024-11-09T00:03:13", y: 4314392 },
+                { x: "2024-11-09T01:03:36", y: 4316159 },
+                { x: "2024-11-09T02:04:00", y: 4318067 },
+                { x: "2024-11-09T03:04:22", y: 4321593 },
+                { x: "2024-11-09T04:04:45", y: 4323561 },
+                { x: "2024-11-09T05:05:07", y: 4327155 },
+                { x: "2024-11-09T07:05:52", y: 4328863 },
+                { x: "2024-11-09T08:06:15", y: 4330874 },
+                { x: "2024-11-09T09:06:37", y: 4332548 },
+                { x: "2024-11-09T11:04:08", y: 4334463 },
+                { x: "2024-11-09T12:04:29", y: 4336305 },
+                { x: "2024-11-09T13:04:50", y: 4338218 },
+                { x: "2024-11-09T14:05:11", y: 4340283 },
+                { x: "2024-11-09T15:05:33", y: 4342043 },
+                { x: "2024-11-09T16:05:55", y: 4344001 },
+                { x: "2024-11-09T17:11:17", y: 4346080 },
+                { x: "2024-11-09T18:01:36", y: 4347920 },
+                { x: "2024-11-09T19:01:58", y: 4349823 },
+                { x: "2024-11-09T20:02:20", y: 4351821 },
+                { x: "2024-11-09T21:02:43", y: 4353610 },
+                { x: "2024-11-09T22:03:05", y: 4355354 },
+                { x: "2024-11-09T23:03:26", y: 4357091 },
+                { x: "2024-11-10T00:03:48", y: 4359067 },
+                { x: "2024-11-10T01:04:11", y: 4360753 },
+                { x: "2024-11-10T02:04:34", y: 4362517 },
+                { x: "2024-11-10T03:04:57", y: 4364194 },
+                { x: "2024-11-10T04:05:19", y: 4365908 },
+                { x: "2024-11-10T05:05:42", y: 4367660 },
+                { x: "2024-11-10T06:06:04", y: 4369442 },
+                { x: "2024-11-10T07:06:26", y: 4371504 },
+                { x: "2024-11-10T08:06:49", y: 4373275 },
+                { x: "2024-11-10T09:07:12", y: 4375256 },
+                { x: "2024-11-10T10:07:34", y: 4377310 },
+                { x: "2024-11-10T11:07:57", y: 4379143 },
+                { x: "2024-11-10T13:08:40", y: 4380914 },
+                { x: "2024-11-10T14:09:03", y: 4382945 },
+                { x: "2024-11-10T16:09:48", y: 4384835 },
+                { x: "2024-11-10T17:10:10", y: 4386533 },
+                { x: "2024-11-10T18:10:33", y: 4388580 },
+                { x: "2024-11-10T19:00:52", y: 4390551 },
+                { x: "2024-11-10T21:01:36", y: 4392473 },
+                { x: "2024-11-11T01:03:06", y: 4394529 },
+                { x: "2024-11-11T02:03:29", y: 4398072 },
+                { x: "2024-11-11T06:04:58", y: 4401562 },
+            ]
 
-        function convertToMilliseconds(data) {
-            return data.map(point => ({
-                x: new Date(point.x).getTime(),
-                y: point.y
-            }));
-        }
-        function calculateTrendline(data) {
-            const n = data.length;
-            let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+            function convertToMilliseconds(data) {
+                return data.map(point => ({
+                    x: new Date(point.x).getTime(),
+                    y: point.y
+                }));
+            }
+            function calculateTrendline(data) {
+                const n = data.length;
+                let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
 
-            data.forEach(point => {
-                sumX += point.x;
-                sumY += point.y;
-                sumXY += point.x * point.y;
-                sumX2 += point.x * point.x;
+                data.forEach(point => {
+                    sumX += point.x;
+                    sumY += point.y;
+                    sumXY += point.x * point.y;
+                    sumX2 += point.x * point.x;
+                });
+
+                const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+                const intercept = (sumY - slope * sumX) / n;
+
+                return { slope, intercept };
+            }
+
+            const numericalData = convertToMilliseconds(preregistrationData);
+            const trendline = calculateTrendline(numericalData);
+            const trendlineEndDate = new Date("2024-12-31T12:00:00").getTime();
+
+            function getTrendlinePoints(data, trendline, endDate) {
+                const xValues = data.map(point => point.x);
+                const minX = Math.min(...xValues);
+                const maxX = Math.max(...xValues);
+
+                const startY = trendline.slope * minX + trendline.intercept;
+                const endY = trendline.slope * endDate + trendline.intercept;
+
+                return [
+                    { x: new Date(minX).toISOString(), y: startY },
+                    { x: new Date(endDate).toISOString(), y: endY }
+                ];
+            }
+            const trendlinePoints = getTrendlinePoints(numericalData, trendline, trendlineEndDate);
+
+            const ctx = document.getElementById("stats").getContext("2d");
+            Chart.defaults.color = "rgba(180, 180, 180)";
+            const statChart = new Chart(ctx, {
+                type: "scatter",
+                data: {
+                    datasets: [
+                        {
+                            label: "Preregistrations",
+                            data: preregistrationData,
+                            backgroundColor: "rgba(75, 192, 192, 1)",
+                            borderColor: "rgba(75, 192, 192, 0.5)",
+                            color: "#FFF",
+                            pointRadius: 5,
+                            pointHoverRadius: 10,
+                            tension: 0.4
+                        },
+                        {
+                            label: "Prediction",
+                            data: trendlinePoints,
+                            type: "line",
+                            fill: false,
+                            borderColor: "rgba(75, 192, 192, 0.5)",
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            borderDash: [5, 5]
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: "time",
+                            position: "bottom",
+                            title: {
+                                display: true,
+                                text: "Date"
+                            },
+                            max: "2024-12-31T12:00:00",
+                            grid: {
+                                color: "rgba(50, 50, 50, 0.5)"
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: "Preregistrations"
+                            },
+                            max: 7000000,
+                            grid: {
+                                color: "rgba(50, 50, 50, 0.5)"
+                            }
+                        }
+                    },
+                    plugins: {
+                        customCanvasBackgroundColor: {
+                            color: "rgba(0, 191, 255, 0.2)", // Highlight color
+                            yRange: [6000000, 6500000], // Y-axis range to highlight
+                            labelText: "Release Likely", // Text label for the highlighted area
+                            labelColor: "white", // Color for the text label
+                            labelFont: "bold 12px Arial" // Font style for the text label
+                        }
+                    },
+                    responsive: true,
+                },
+                plugins: [{
+                    id: "customCanvasBackgroundColor",
+                    beforeDraw: (chart, args, options) => {
+                        const { ctx, chartArea: { left, right, top, bottom }, scales: { y } } = chart;
+                        const yStart = y.getPixelForValue(options.yRange[0]);
+                        const yEnd = y.getPixelForValue(options.yRange[1]);
+
+                        // Draw the highlighted background
+                        ctx.save();
+                        ctx.fillStyle = options.color;
+                        ctx.fillRect(left, yEnd, right - left, yStart - yEnd);
+
+                        // Add the text label
+                        ctx.fillStyle = options.labelColor;
+                        ctx.font = options.labelFont;
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "middle";
+                        ctx.fillText(
+                            options.labelText,
+                            left + (right - left) / 2, // X position: center of the highlighted area
+                            yEnd + (yStart - yEnd) / 2 // Y position: center of the highlighted area
+                        );
+                        ctx.restore();
+                    }
+                }]
             });
-
-            const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-            const intercept = (sumY - slope * sumX) / n;
-
-            return { slope, intercept };
-        }
-
-        const numericalData = convertToMilliseconds(preregistrationData);
-        const trendline = calculateTrendline(numericalData);
-        const trendlineEndDate = new Date("2024-12-31T12:00:00").getTime();
-
-        function getTrendlinePoints(data, trendline, endDate) {
-            const xValues = data.map(point => point.x);
-            const minX = Math.min(...xValues);
-            const maxX = Math.max(...xValues);
-            
-            const startY = trendline.slope * minX + trendline.intercept;
-            const endY = trendline.slope * endDate + trendline.intercept;
-            
-            return [
-                { x: new Date(minX).toISOString(), y: startY },
-                { x: new Date(endDate).toISOString(), y: endY }
-            ];
-        }
-        const trendlinePoints = getTrendlinePoints(numericalData, trendline, trendlineEndDate);
-
-        const ctx = document.getElementById("stats").getContext("2d");
-        const statChart = new Chart(ctx, {
-            type: "scatter",
-            data: {
-                datasets: [
-                    {
-                        label: "Preregistrations",
-                        data: preregistrationData,
-                        backgroundColor: "rgba(75, 192, 192, 1)",
-                        borderColor: "rgba(75, 192, 192, 0.5)",
-                        pointRadius: 5,
-                        pointHoverRadius: 10,
-                        tension: 0.4
-                    },
-                    {
-                        label: "Prediction",
-                        data: trendlinePoints,
-                        type: "line",
-                        fill: false,
-                        borderColor: "rgba(75, 192, 192, 0.5)",
-                        borderWidth: 2,
-                        pointRadius: 0,
-                        borderDash: [5, 5]
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    x: {
-                        type: "time",
-                        position: "bottom",
-                        title: {
-                            display: true,
-                            text: "Date"
-                        },
-                        max: "2024-12-31T12:00:00"
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: "Preregistrations"
-                        },
-                        max: 7000000
-                    }
-                },
-                plugins: {
-                    customCanvasBackgroundColor: {
-                        color: "rgba(86, 255, 86, 0.2)", // Highlight color
-                        yRange: [6000000, 6500000], // Y-axis range to highlight
-                        labelText: "Release Likely", // Text label for the highlighted area
-                        labelColor: "black", // Color for the text label
-                        labelFont: "bold 12px Arial" // Font style for the text label
-                    }
-                },
-                responsive: true,
-            },
-            plugins: [{
-                id: "customCanvasBackgroundColor",
-                beforeDraw: (chart, args, options) => {
-                    const { ctx, chartArea: { left, right, top, bottom }, scales: { y } } = chart;
-                    const yStart = y.getPixelForValue(options.yRange[0]);
-                    const yEnd = y.getPixelForValue(options.yRange[1]);
-        
-                    // Draw the highlighted background
-                    ctx.save();
-                    ctx.fillStyle = options.color;
-                    ctx.fillRect(left, yEnd, right - left, yStart - yEnd);
-        
-                    // Add the text label
-                    ctx.fillStyle = options.labelColor;
-                    ctx.font = options.labelFont;
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
-                    ctx.fillText(
-                        options.labelText,
-                        left + (right - left) / 2, // X position: center of the highlighted area
-                        yEnd + (yStart - yEnd) / 2 // Y position: center of the highlighted area
-                    );
-                    ctx.restore();
-                }
-            }]
-        });
-    </script>
+        </script>
+    </main>
 </body>
+
 </html>
