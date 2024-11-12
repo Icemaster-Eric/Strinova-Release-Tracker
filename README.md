@@ -1,3 +1,5 @@
+![image](https://klbq-web-cms.strinova.com/prod/strinova_web/images/202409/a6de0552-ac19-4af0-ac7e-f86f3e1c146e.jpg)
+
 # Strinova Release Tracker
 
 [Strinova](https://www.strinova.com/?lang=en-US) is an anime-style third-person tactical competitive shooter. I was able to play in the last closed beta they held during Oct 10 - Oct 21, and thoroughly enjoyed it. It's set to release this year, but so far there hasn't been any news about the release date yet.
