@@ -11,6 +11,7 @@
     <meta content="strinova-logo-small.webp" property="og:image">
     <link rel="icon" href="/strinova-logo-small.webp">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@^2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@^1"></script>
@@ -18,7 +19,12 @@
 
 <body>
     <header class="container">
-        <h1>Strinova Release Estimation</h1>
+        <div class="stack" style="--stacks: 3;">
+            <span style="--index: 0;">Strinova</span>
+            <span style="--index: 1;">Strinova</span>
+            <span style="--index: 2;">Strinova</span>
+        </div>
+        <h1>Release Tracker</h1>
         <p>Since most games will release after hitting their preregistration milestones, I built this website in order
             to estimate the rough release date based on preregistration data.</p>
         <p>Strinova should release <span id="startDate"></span> - <span id="endDate"></span> based on current estimates.
