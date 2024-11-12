@@ -27,8 +27,7 @@
         <h1>Release Tracker</h1>
         <p>Since most games will release after hitting their preregistration milestones, I built this website in order
             to estimate the rough release date based on preregistration data.</p>
-        <p>Strinova should release <span id="startDate"></span> - <span id="endDate"></span> based on current estimates.
-        </p>
+        <p>Strinova should release <ins id="startDate"></ins> - <ins id="endDate"></ins> based on current estimates.</p>
     </header>
     <main class="container">
         <canvas id="stats" style="width: 100vw; height: 100vh"></canvas>
@@ -111,6 +110,12 @@
             { x: "2024-11-11T01:03:06", y: 4394529 },
             { x: "2024-11-11T02:03:29", y: 4398072 },
             { x: "2024-11-11T06:04:58", y: 4401562 },
+            { x: "2024-11-11T09:06:05", y: 4405195 },
+            { x: "2024-11-11T10:06:28", y: 4408790 },
+            { x: "2024-11-11T11:06:50", y: 4412881 },
+            { x: "2024-11-11T12:07:12", y: 4414870 },
+            { x: "2024-11-11T13:07:35", y: 4416644 },
+            { x: "2024-11-11T14:07:55", y: 4420378 },
         ]
 
         function convertToMilliseconds(data) {
@@ -196,7 +201,7 @@
                         borderDash: [5, 5]
                     },
                     {
-                        label: "Release Date",
+                        label: "Release Date Range",
                         type: "bar",
                         data: [
                             { x: releaseStartX, y: 6000000 },
