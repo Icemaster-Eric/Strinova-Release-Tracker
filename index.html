@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Strinova Release Estimation</title>
-    <meta content="Strinova Release Date Estimation" property="og:title">
-    <meta content="Strinova should release Dec 18 - Dec 29 based on current estimates." property="og:description">
+    <title>Strinova Preregistrations</title>
+    <meta content="Strinova Preregistrations" property="og:title">
+    <meta content="Tracking the preregistration count to estimate when we'll hit 6m preregistrations for Strinova!" property="og:description">
     <meta content="https://strinova-release-tracker.hutao.rip" property="og:url">
     <meta content="strinova-logo-small.webp" property="og:image">
     <link rel="icon" href="/strinova-logo-small.webp">
@@ -24,106 +24,25 @@
             <span style="--index: 1;">Strinova</span>
             <span style="--index: 2;">Strinova</span>
         </div>
-        <h1>Release Tracker</h1>
-        <p>Since most games will release after hitting their preregistration milestones, I built this website in order
-            to estimate the rough release date based on preregistration data.</p>
-        <p>Strinova should release <ins id="startDate"></ins> - <ins id="endDate"></ins> based on current estimates.</p>
+        <h1>Preregistration Tracker</h1>
+        <div class="grid">
+            <div>
+                <p>Strinova is giving out Kokona's <b><ins>Tidal Duck</ins></b> gun skin for free once we hit <b><ins>6m</ins></b> preregistrations! The game releases on <b><mark>Nov 21</mark></b>, so I made this site to predict whether we'll hit the milestone before the game releases.</p>
+                <p>We should hit <b><ins>6m</ins></b> preregistrations on <b><mark id="startDate"></mark></b> based on current estimates.</p>
+                <small><p>Preregister for <a href="https://www.strinova.com/?lang=en-US">Strinova</a> and become a Kokona main!</p></small>
+            </div>
+            <figure style="text-align: center">
+                <img src="duck-gun.png" alt="Tidal Duck gun skin" width="80%">
+                <figcaption style="margin-top: -20px; margin-bottom: 20px">Tidal Duck</figcaption>
+            </figure>
+    </div>
     </header>
+    
     <main class="container">
-        <canvas id="stats" style="width: 100vw; height: 100vh"></canvas>
+        <canvas id="stats" style="width: 100vw; height: 90vh"></canvas>
     </main>
-    <footer class="container">
-        <small><p>Preregister for <a href="https://www.strinova.com/?lang=en-US">Strinova</a></p></small>
-    </footer>
     <script>
         const preregistrationData = [
-            { x: "2024-11-05T12:00:00", y: 4159408 },
-            { x: "2024-11-06T08:30:00", y: 4196753 },
-            { x: "2024-11-06T15:15:00", y: 4215075 },
-            { x: "2024-11-07T10:00:00", y: 4241848 },
-            { x: "2024-11-07T12:00:00", y: 4245477 },
-            { x: "2024-11-07T14:00:00", y: 4249335 },
-            { x: "2024-11-07T19:00:00", y: 4258512 },
-            { x: "2024-11-07T20:42:02", y: 4261876 },
-            { x: "2024-11-07T21:06:15", y: 4263717 },
-            { x: "2024-11-07T22:06:38", y: 4265465 },
-            { x: "2024-11-07T23:07:00", y: 4267351 },
-            { x: "2024-11-08T08:08:45", y: 4284167 },
-            { x: "2024-11-08T09:09:07", y: 4285882 },
-            { x: "2024-11-08T10:09:29", y: 4287868 },
-            { x: "2024-11-08T11:09:52", y: 4289860 },
-            { x: "2024-11-08T12:10:15", y: 4291822 },
-            { x: "2024-11-08T13:10:36", y: 4293880 },
-            { x: "2024-11-08T14:00:54", y: 4295575 },
-            { x: "2024-11-08T15:01:16", y: 4297537 },
-            { x: "2024-11-08T16:10:16", y: 4299561 },
-            { x: "2024-11-08T17:10:38", y: 4301424 },
-            { x: "2024-11-08T18:11:01", y: 4303421 },
-            { x: "2024-11-08T19:01:20", y: 4305225 },
-            { x: "2024-11-08T20:01:42", y: 4307075 },
-            { x: "2024-11-08T21:02:05", y: 4308928 },
-            { x: "2024-11-08T22:02:27", y: 4310607 },
-            { x: "2024-11-08T23:02:50", y: 4312351 },
-            { x: "2024-11-09T00:03:13", y: 4314392 },
-            { x: "2024-11-09T01:03:36", y: 4316159 },
-            { x: "2024-11-09T02:04:00", y: 4318067 },
-            { x: "2024-11-09T03:04:22", y: 4321593 },
-            { x: "2024-11-09T04:04:45", y: 4323561 },
-            { x: "2024-11-09T05:05:07", y: 4327155 },
-            { x: "2024-11-09T07:05:52", y: 4328863 },
-            { x: "2024-11-09T08:06:15", y: 4330874 },
-            { x: "2024-11-09T09:06:37", y: 4332548 },
-            { x: "2024-11-09T11:04:08", y: 4334463 },
-            { x: "2024-11-09T12:04:29", y: 4336305 },
-            { x: "2024-11-09T13:04:50", y: 4338218 },
-            { x: "2024-11-09T14:05:11", y: 4340283 },
-            { x: "2024-11-09T15:05:33", y: 4342043 },
-            { x: "2024-11-09T16:05:55", y: 4344001 },
-            { x: "2024-11-09T17:11:17", y: 4346080 },
-            { x: "2024-11-09T18:01:36", y: 4347920 },
-            { x: "2024-11-09T19:01:58", y: 4349823 },
-            { x: "2024-11-09T20:02:20", y: 4351821 },
-            { x: "2024-11-09T21:02:43", y: 4353610 },
-            { x: "2024-11-09T22:03:05", y: 4355354 },
-            { x: "2024-11-09T23:03:26", y: 4357091 },
-            { x: "2024-11-10T00:03:48", y: 4359067 },
-            { x: "2024-11-10T01:04:11", y: 4360753 },
-            { x: "2024-11-10T02:04:34", y: 4362517 },
-            { x: "2024-11-10T03:04:57", y: 4364194 },
-            { x: "2024-11-10T04:05:19", y: 4365908 },
-            { x: "2024-11-10T05:05:42", y: 4367660 },
-            { x: "2024-11-10T06:06:04", y: 4369442 },
-            { x: "2024-11-10T07:06:26", y: 4371504 },
-            { x: "2024-11-10T08:06:49", y: 4373275 },
-            { x: "2024-11-10T09:07:12", y: 4375256 },
-            { x: "2024-11-10T10:07:34", y: 4377310 },
-            { x: "2024-11-10T11:07:57", y: 4379143 },
-            { x: "2024-11-10T13:08:40", y: 4380914 },
-            { x: "2024-11-10T14:09:03", y: 4382945 },
-            { x: "2024-11-10T16:09:48", y: 4384835 },
-            { x: "2024-11-10T17:10:10", y: 4386533 },
-            { x: "2024-11-10T18:10:33", y: 4388580 },
-            { x: "2024-11-10T19:00:52", y: 4390551 },
-            { x: "2024-11-10T21:01:36", y: 4392473 },
-            { x: "2024-11-11T01:03:06", y: 4394529 },
-            { x: "2024-11-11T02:03:29", y: 4398072 },
-            { x: "2024-11-11T06:04:58", y: 4401562 },
-            { x: "2024-11-11T09:06:05", y: 4405195 },
-            { x: "2024-11-11T10:06:28", y: 4408790 },
-            { x: "2024-11-11T11:06:50", y: 4412881 },
-            { x: "2024-11-11T12:07:12", y: 4414870 },
-            { x: "2024-11-11T13:07:35", y: 4416644 },
-            { x: "2024-11-11T14:07:55", y: 4420378 },
-            { x: "2024-11-11T18:09:25", y: 4422242 },
-            { x: "2024-11-11T19:09:48", y: 4424148 },
-            { x: "2024-11-11T20:10:11", y: 4426211 },
-            { x: "2024-11-11T21:00:30", y: 4428118 },
-            { x: "2024-11-12T00:01:38", y: 4431907 },
-            { x: "2024-11-12T02:02:25", y: 4435827 },
-            { x: "2024-11-12T03:02:48", y: 4439776 },
-            { x: "2024-11-12T04:03:11", y: 4441629 },
-            { x: "2024-11-12T06:03:56", y: 4445238 },
-            { x: "2024-11-12T07:04:18", y: 4448934 },
             { x: "2024-11-12T09:05:03", y: 4452441 },
             { x: "2024-11-12T10:05:26", y: 4454160 },
             { x: "2024-11-12T11:05:49", y: 4456139 },
@@ -159,6 +78,17 @@
             { x: "2024-11-13T17:00:45", y: 4512579 },
             { x: "2024-11-13T18:01:08", y: 4514386 },
             { x: "2024-11-13T19:11:34", y: 4516204 },
+            { x: "2024-11-13T20:01:53", y: 4518004 },
+            { x: "2024-11-13T21:02:15", y: 4519879 },
+            { x: "2024-11-13T22:02:38", y: 4521867 },
+            { x: "2024-11-14T00:03:23", y: 4523584 },
+            { x: "2024-11-14T01:03:45", y: 4525330 },
+            { x: "2024-11-14T20:29:26", y: 4752713 },
+        ]
+
+        const newData = [ // add new points to both preregistrationData and newData
+            { x: "2024-11-14T01:03:45", y: 4525330 },
+            { x: "2024-11-14T20:29:26", y: 4752713 },
         ]
 
         function convertToMilliseconds(data) {
@@ -184,7 +114,7 @@
             return { slope, intercept };
         }
 
-        const numericalData = convertToMilliseconds(preregistrationData);
+        const numericalData = convertToMilliseconds(newData);
         const trendline = calculateTrendline(numericalData);
         const trendlineEndDate = new Date("2024-12-31T12:00:00").getTime();
 
@@ -204,18 +134,14 @@
         const trendlinePoints = getTrendlinePoints(numericalData, trendline, trendlineEndDate);
 
         const releaseStartX = (6000000 - trendline.intercept) / trendline.slope;
-        const releaseEndX = (6500000 - trendline.intercept) / trendline.slope;
 
         const startDate = new Date(releaseStartX);
-        const endDate = new Date(releaseEndX);
 
         const options = { month: "short", day: "numeric" };
 
         const formattedStartDate = startDate.toLocaleDateString("en-US", options);
-        const formattedEndDate = endDate.toLocaleDateString("en-US", options);
 
         document.getElementById("startDate").textContent = formattedStartDate;
-        document.getElementById("endDate").textContent = formattedEndDate;
 
         const ctx = document.getElementById("stats").getContext("2d");
         Chart.defaults.color = "rgba(180, 180, 180)";
@@ -244,15 +170,14 @@
                         borderDash: [5, 5]
                     },
                     {
-                        label: "Release Date Range",
+                        label: "6M Preregistrations",
                         type: "bar",
                         data: [
-                            { x: releaseStartX, y: 6000000 },
-                            { x: releaseEndX, y: 6500000 },
+                            { x: startDate, y: 6000000 },
                         ],
-                        maxBarThickness: 1,
-                        backgroundColor: "rgba(75, 192, 192, 1)"
-                    }
+                        maxBarThickness: 3,
+                        backgroundColor: "rgba(65, 152, 192, 1)",
+                    },
                 ]
             },
             options: {
@@ -264,9 +189,12 @@
                             display: true,
                             text: "Date"
                         },
-                        max: "2024-12-31T12:00:00",
+                        max: 1732233600000,
                         grid: {
                             color: "rgba(50, 50, 50, 0)"
+                        },
+                        time: {
+                            unit: "day"
                         }
                     },
                     y: {
@@ -274,7 +202,8 @@
                             display: true,
                             text: "Preregistrations"
                         },
-                        max: 7000000,
+                        min: 4000000,
+                        max: 6500000,
                         grid: {
                             color: "rgba(50, 50, 50, 0.5)"
                         }
@@ -284,9 +213,9 @@
                     customCanvasBackgroundColor: {
                         color: "rgba(0, 191, 255, 0.2)", // Highlight color
                         yRange: [6000000, 6500000], // Y-axis range to highlight
-                        labelText: "Release Likely", // Text label for the highlighted area
+                        labelText: "6M+ Preregistrations", // Text label for the highlighted area
                         labelColor: "white", // Color for the text label
-                        labelFont: "bold 13px Arial" // Font style for the text label
+                        labelFont: "bold 14px Arial" // Font style for the text label
                     }
                 },
                 responsive: true,
